@@ -64,15 +64,7 @@ public class MapData {
         return output;
     }
     public String toStringMenu() {
-        String output = new String();
-        for (char[] arr: mapLayout){
-            for(char symb: arr){
-                output = output + symb;
-            }
-            output = output + "\n";
-        }
-        output = output + toStringLegalTypes();
-        return output;
+        return this + toStringLegalTypes();
     }
 
 }
