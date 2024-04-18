@@ -30,7 +30,7 @@ public class MapEditor {
             }
         }
     }
-    public static void main(String[] args) throws IOException, IllegalTileSymbol, IncorrectFileStructure {
+    public static void main(String[] args) throws IOException {
             System.out.println("Welcome to Bauman's Gate map editor.\nSyntax: -load path; -create name");
             Scanner stream = new Scanner(System.in);
             String[] split = null;
