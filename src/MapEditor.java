@@ -3,14 +3,14 @@ import java.util.Scanner;
 
 public class MapEditor {
     private static MapData Edit(MapData edited){
-        System.out.println("Syntax: -clear; -point x y type; -save");
+        System.out.println("Syntax: -clear; -point x y type; -save; -addObstacle [character] [fineInfantry] [fineArcher] [fineMounted]");
         MapData output = edited;
         while(true){
             System.out.println(edited.toStringMenu());
             Scanner stream = new Scanner(System.in);
             String scanned = stream.nextLine();
             String[] split = scanned.split(" ");
-            if(!(split[0].equals("-clear") || split[0].equals("-point") || split[0].equals("-save"))){
+            if(!(split[0].equals("-clear") || split[0].equals("-point") || split[0].equals("-save") || split[0].equals("-addObstacle"))){
                 System.out.println("Wrong syntax!");
                 continue;
             }
@@ -21,11 +21,20 @@ public class MapEditor {
             if(split[0].equals("-save")){
                 return output;
             }
+            if(split[0].equals("-addObstacle")){
+                char character = split[1].charAt(0);
+                double fineInfantry = Double.parseDouble(split[2]);
+                double fineArcher = Double.parseDouble(split[3]);
+                double fineMounted = Double.parseDouble(split[4]);
+                Obstacle add = new Obstacle(new double[]{fineInfantry, fineArcher, fineMounted}, character);
+                edited.obstacles.add(add);
+            }
             if(split[0].equals("-point")){
                 int x = Integer.parseInt(split[1]);
                 int y = Integer.parseInt(split[2]);
                 int type = Integer.parseInt(split[3]);
-                output.mapLayout[y][x] = Field.gnd_symbols[type-1];
+                //output.mapLayout[y][x] = Field.gnd_symbols[type-1];
+                output.mapLayout[y][x] = output.obstacles.get(type-1).getSymbol();
                 continue;
             }
         }
@@ -55,15 +64,7 @@ public class MapEditor {
             if (split[0].equals("-load")){
                 MapReader rd = new MapReader(path);
                 MapData wr;
-                try {
                 wr = Edit(rd.read());
-                } catch (IncorrectFileStructure e){
-                    System.out.println("Wrong file structure");
-                    return;
-                } catch (IllegalTileSymbol a){
-                    System.out.println("Illegal symbols detected");
-                    return;
-                }
                 System.out.println("Specify the new path: ");
                 String newpath = stream.nextLine();
                 MapWriter writer = new MapWriter(newpath);
