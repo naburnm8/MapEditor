@@ -49,6 +49,18 @@ public class MapData implements Serializable{
         //output = output + toStringLegalTypes();
         return output;
     }
+    @Override
+    public boolean equals(Object obj){
+        if(obj == null){
+            return false;
+        }
+        if(obj.getClass() != this.getClass()){
+            return false;
+        }
+        MapData mapDataObj = (MapData)obj;
+
+        return mapDataObj.toStringMenu().equals(this.toStringMenu());
+    }
     public String toStringMenu() {
         return this + toStringLegalTypes();
     }
